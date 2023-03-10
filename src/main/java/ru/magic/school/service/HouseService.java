@@ -3,6 +3,8 @@ package ru.magic.school.service;
 import org.springframework.stereotype.Service;
 import ru.magic.school.model.Faculty;
 import ru.magic.school.model.Student;
+import ru.magic.school.repository.FacultyRepository;
+import ru.magic.school.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,33 +12,31 @@ import java.util.Map;
 
 @Service
 public class HouseService {
-    private Map<Long, Faculty> facultys = new HashMap<>();
-    private Long generatedFacultyIdF = 1L;
 
+    private FacultyRepository facultyRepository;
 
+    public HouseService(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
+    }
 
     public Faculty createFaculty(Faculty faculty) {
-        facultys.put(generatedFacultyIdF, faculty);
-        generatedFacultyIdF++;
-        return faculty;
+        return facultyRepository.save(faculty);
     }
 
     public Faculty getFacultyByIdF(Long idF) {
-        return facultys.get(idF);
+        return facultyRepository.findById(idF).orElse(null);
     }
 
-    public Faculty updateFaculty(Long idF, Faculty faculty) {
-        facultys.put(idF, faculty);
-        return faculty;
+    public Faculty updateFaculty(Faculty faculty) {
+        return facultyRepository.save(faculty);
     }
 
 
-    public Faculty deleteFaculty(Long idF) {
-        generatedFacultyIdF--;
-        return facultys.remove(idF);
+    public void deleteFaculty(Long idF) {
+        facultyRepository.deleteById(idF);
     }
 
     public Collection<Faculty> getAllFaculty() {
-        return facultys.values();
+        return facultyRepository.findAll();
     }
 }

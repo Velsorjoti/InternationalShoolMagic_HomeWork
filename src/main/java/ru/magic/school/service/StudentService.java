@@ -2,6 +2,7 @@ package ru.magic.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.magic.school.model.Student;
+import ru.magic.school.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,31 +11,31 @@ import java.util.Map;
 
 @Service
 public class StudentService {
-    private Map<Long, Student> students = new HashMap<>();
-    private Long generatedUserIdS = 1L;
+
+    private StudentRepository studentRepository;
+
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     public Student createStudent(Student student) {
-        students.put(generatedUserIdS, student);
-        generatedUserIdS++;
-        return student;
+        return studentRepository.save(student);
     }
 
     public Student getStudentByIdS(Long idS) {
-        return students.get(idS);
+        return studentRepository.findById(idS).orElse(null);
     }
 
-    public Student updateStudent(Long idS, Student student) {
-        students.put(idS, student);
-        return student;
+    public Student updateStudent(Student student) {
+        return studentRepository.save(student);
     }
 
 
-    public Student deleteStudent(Long idS) {
-        generatedUserIdS--;
-        return students.remove(idS);
+    public void deleteStudent(Long idS) {
+        studentRepository.deleteById(idS);
     }
 
-    public Collection<Student> getallStudent() {
-        return students.values();
+    public Collection<Student> getAllStudent() {
+        return studentRepository.findAll();
     }
 }
