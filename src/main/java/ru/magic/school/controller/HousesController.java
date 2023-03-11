@@ -44,6 +44,15 @@ public class HousesController {
         return ResponseEntity.ok(updateFaculty);
     }
 
+    @GetMapping
+    public ResponseEntity<Faculty> findByNameIgnoreCase(@RequestParam String name) {
+        Faculty foundedFaculty = houseService.findByNameIgnoreCase(name);
+        if(foundedFaculty == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(foundedFaculty);
+    }
+
     @DeleteMapping("{idF}")
     public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long idF) {
         houseService.deleteFaculty(idF);
@@ -52,8 +61,7 @@ public class HousesController {
 
     @GetMapping
     public ResponseEntity<Collection<Faculty>> validFacultyByColor (@RequestParam String color) {
-        return ResponseEntity.ok(houseService.getAllFaculty().stream().filter(faculty -> faculty.getColor() == color
-        ).collect(Collectors.toList()));
+        return ResponseEntity.ok(houseService.validFacultyByColor(color));
     }
 
 }

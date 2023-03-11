@@ -5,4 +5,5 @@ import ru.magic.school.model.Faculty;
 
 public interface FacultyRepository extends JpaRepository<Faculty, Long> {
 
+    public Faculty findByNameIgnoreCase(String name);
 }

@@ -3,6 +3,7 @@ package ru.magic.school.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.magic.school.model.Faculty;
 import ru.magic.school.model.Student;
 import ru.magic.school.service.StudentService;
 
@@ -50,7 +51,15 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity<Collection<Student>> validStudentByAge(@RequestParam Integer age) {
-        return ResponseEntity.ok(studentService.getAllStudent().stream().filter(student -> student.getAge() == age
-        ).collect(Collectors.toList()));
+        return ResponseEntity.ok(studentService.validStudentByAge(age));
+    }
+
+    @GetMapping
+    public ResponseEntity<Student> findByAgeBetween(@RequestParam Integer min,@RequestParam Integer max) {
+        Student foundedStudent = studentService.findByAgeBetween(min,max);
+        if (foundedStudent == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(foundedStudent);
     }
 }

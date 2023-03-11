@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -38,4 +39,15 @@ public class StudentService {
     public Collection<Student> getAllStudent() {
         return studentRepository.findAll();
     }
+
+    public Collection<Student> validStudentByAge(Integer age) {
+        return studentRepository.findAll().stream().filter(student -> student.getAge() == age
+        ).collect(Collectors.toList());
+    }
+
+    public Student findByAgeBetween(Integer min, Integer max) {
+        return studentRepository.findByAgeBetween(min,max);
+    }
+
+
 }

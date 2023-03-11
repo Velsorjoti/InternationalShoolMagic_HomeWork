@@ -9,6 +9,7 @@ import ru.magic.school.repository.StudentRepository;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class HouseService {
@@ -27,6 +28,10 @@ public class HouseService {
         return facultyRepository.findById(idF).orElse(null);
     }
 
+    public Faculty findByNameIgnoreCase(String name) {
+        return facultyRepository.findByNameIgnoreCase(name);
+    }
+
     public Faculty updateFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
     }
@@ -38,5 +43,9 @@ public class HouseService {
 
     public Collection<Faculty> getAllFaculty() {
         return facultyRepository.findAll();
+    }
+
+    public Collection<Faculty> validFacultyByColor(String color) {
+        return  facultyRepository.findAll().stream().filter(faculty -> faculty.getColor() == color).collect(Collectors.toList());
     }
 }
