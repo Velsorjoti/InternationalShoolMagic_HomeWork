@@ -15,7 +15,6 @@ public class Student {
     private Integer age;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
-
     private Faculty facultyId;
 
     public Student() {

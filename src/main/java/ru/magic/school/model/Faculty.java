@@ -12,8 +12,7 @@ public class Faculty {
     private Long idF;
     private String name;
     private String color;
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student")
+    @OneToMany(mappedBy = "facultyId")
     private List<Student> studentList;
 
     public Faculty() {

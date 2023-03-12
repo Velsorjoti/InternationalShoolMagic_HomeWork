@@ -11,16 +11,14 @@ public class FacultyDTO {
     private Long idF;
     private String name;
     private String color;
-    private List<Student> studentList;
 
     public FacultyDTO() {
     }
 
-    public FacultyDTO(Long idF, String name, String color, List<Student> studentList) {
+    public FacultyDTO(Long idF, String name, String color) {
         this.idF = idF;
         this.name = name;
         this.color = color;
-        this.studentList = studentList;
     }
 
     public Long getIdF() {
@@ -47,13 +45,6 @@ public class FacultyDTO {
         this.color = color;
     }
 
-    public List<Student> getStudentList() {
-        return studentList;
-    }
-
-    public void setStudentList(List<Student> studentList) {
-        this.studentList = studentList;
-    }
 
     public static FacultyDTO fromFaculty(Faculty faculty) {
         FacultyDTO dto = new FacultyDTO();

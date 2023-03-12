@@ -58,12 +58,12 @@ public class StudentController {
         return ResponseEntity.ok(studentService.validStudentByAge(age));
     }
 
-    @GetMapping
+    @GetMapping("/age")
     public ResponseEntity<Collection<StudentDTO>> findByAgeBetween(@RequestParam Integer min,@RequestParam Integer max) {
        return  ResponseEntity.ok(studentService.findByAgeBetween(min, max));
     }
 
-    @GetMapping("{idS}")
+    @GetMapping("{idS}/faculty")
     public ResponseEntity<FacultyDTO> getFacultyByIdStudent(@PathVariable Long idS) {
         return ResponseEntity.ok(studentService.getFacultyByIdStudent(idS));
     }

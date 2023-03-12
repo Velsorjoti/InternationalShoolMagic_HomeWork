@@ -61,12 +61,12 @@ public class HousesController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("/color")
     public ResponseEntity<Collection<FacultyDTO>> validFacultyByColor (@RequestParam String color) {
         return ResponseEntity.ok(houseService.validFacultyByColor(color));
     }
 
-    @GetMapping("{idF}")
+    @GetMapping("{idF}/student")
     public ResponseEntity<Collection<StudentDTO>> getAllStudentsByFacultyId(@PathVariable Long idF) {
         return ResponseEntity.ok(houseService.getAllStudentsByFacultyId(idF));
     }

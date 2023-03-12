@@ -15,17 +15,14 @@ import java.util.stream.Collectors;
 public class HouseService {
 
     private FacultyRepository facultyRepository;
-    private StudentRepository studentRepository;
 
     public HouseService(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
     }
 
     public FacultyDTO createFaculty(FacultyDTO facultyDTO) {
-        Faculty faculty = new Faculty();
-        faculty = facultyDTO.toFaculty();
-        Faculty faculty1 = facultyRepository.save(faculty);
-        return FacultyDTO.fromFaculty(faculty1);
+        Faculty faculty = facultyDTO.toFaculty();
+        return FacultyDTO.fromFaculty(facultyRepository.save(faculty));
     }
 
     public FacultyDTO getFacultyByIdF(Long idF) {
@@ -37,10 +34,8 @@ public class HouseService {
     }
 
     public FacultyDTO updateFaculty(FacultyDTO facultyDTO) {
-        Faculty faculty = new Faculty();
-        faculty = facultyDTO.toFaculty();
-        Faculty faculty1 = facultyRepository.save(faculty);
-        return FacultyDTO.fromFaculty(faculty1);
+        Faculty faculty = facultyDTO.toFaculty();
+        return FacultyDTO.fromFaculty(facultyRepository.save(faculty));
     }
 
 
@@ -53,8 +48,7 @@ public class HouseService {
     }
 
     public Collection<FacultyDTO> validFacultyByColor(String color) {
-        return  facultyRepository.findAll().stream().filter(faculty -> faculty.getColor() == color).collect(Collectors.toList())
-                .stream().map(FacultyDTO::fromFaculty).collect(Collectors.toList());
+        return  facultyRepository.findAllByColor(color).stream().map(FacultyDTO::fromFaculty).collect(Collectors.toList());
     }
 
     public Collection<StudentDTO> getAllStudentsByFacultyId(Long idF) {

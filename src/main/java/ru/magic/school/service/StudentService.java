@@ -1,5 +1,6 @@
 package ru.magic.school.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.magic.school.DTO.FacultyDTO;
 import ru.magic.school.DTO.StudentDTO;
@@ -17,6 +18,8 @@ public class StudentService {
     private StudentRepository studentRepository;
     private FacultyRepository facultyRepository;
 
+
+    @Autowired
     public StudentService(StudentRepository studentRepository, FacultyRepository facultyRepository) {
         this.studentRepository = studentRepository;
         this.facultyRepository = facultyRepository;
@@ -24,8 +27,7 @@ public class StudentService {
 
 
     public StudentDTO createStudent(StudentDTO studentDTO) {
-        Student student = new Student();
-        student = studentDTO.toStudent();
+        Student student = studentDTO.toStudent();
         student.setFacultyId(facultyRepository.findById(studentDTO.getFacultyId()).get());
         return StudentDTO.fromStudent(studentRepository.save(student));
     }
@@ -35,8 +37,7 @@ public class StudentService {
     }
 
     public StudentDTO updateStudent(StudentDTO studentDTO) {
-        Student student = new Student();
-        student = studentDTO.toStudent();
+        Student student = studentDTO.toStudent();
         student.setFacultyId(facultyRepository.findById(studentDTO.getFacultyId()).get());
         return StudentDTO.fromStudent(studentRepository.save(student));
     }
@@ -50,13 +51,14 @@ public class StudentService {
         return studentRepository.findAll().stream().map(StudentDTO::fromStudent).collect(Collectors.toList());
     }
 
+
+
     public Collection<StudentDTO> validStudentByAge(Integer age) {
-        return studentRepository.findAll().stream().filter(student -> student.getAge() == age).collect(Collectors.toList())
-                .stream().map(StudentDTO::fromStudent).collect(Collectors.toList());
+        return studentRepository.findAllByAge(age).stream().map(StudentDTO::fromStudent).collect(Collectors.toList());
     }
 
     public Collection<StudentDTO> findByAgeBetween(Integer min, Integer max) {
-        return studentRepository.findAll().stream().map(StudentDTO::fromStudent).collect(Collectors.toList());
+        return studentRepository.findByAgeBetween(min, max).stream().map(StudentDTO::fromStudent).collect(Collectors.toList());
     }
 
     public FacultyDTO getFacultyByIdStudent(Long idS) {
