@@ -3,6 +3,8 @@ package ru.magic.school.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.magic.school.DTO.FacultyDTO;
+import ru.magic.school.DTO.StudentDTO;
 import ru.magic.school.model.Faculty;
 import ru.magic.school.model.Student;
 import ru.magic.school.service.HouseService;
@@ -21,47 +23,51 @@ public class HousesController {
     }
 
     @PostMapping
-    public ResponseEntity<Faculty> createFaculty(@RequestBody Faculty faculty) {
-        Faculty createdFaculty  = houseService.createFaculty(faculty);
+    public ResponseEntity<FacultyDTO> createFaculty(@RequestBody FacultyDTO facultyDTO) {
+        FacultyDTO createdFaculty  = houseService.createFaculty(facultyDTO);
         return ResponseEntity.ok(createdFaculty);
     }
 
     @GetMapping("{idF}")
-    public ResponseEntity<Faculty> getFaculty(@PathVariable Long  idF) {
-        Faculty faculty = houseService.getFacultyByIdF(idF);
-        if(faculty == null) {
+    public ResponseEntity<FacultyDTO> getFaculty(@PathVariable Long  idF) {
+        FacultyDTO facultyDTO = houseService.getFacultyByIdF(idF);
+        if(facultyDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(faculty);
+        return ResponseEntity.ok(facultyDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<Faculty> updateFaculty(@RequestBody Faculty faculty) {
-        Faculty updateFaculty = houseService.updateFaculty(faculty);
-        if (updateFaculty == null) {
+    public ResponseEntity<FacultyDTO> updateFaculty(@RequestBody FacultyDTO facultyDTO) {
+        FacultyDTO updateFacultyDTO = houseService.updateFaculty(facultyDTO);
+        if (updateFacultyDTO == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(updateFaculty);
+        return ResponseEntity.ok(updateFacultyDTO);
     }
 
     @GetMapping
-    public ResponseEntity<Faculty> findByNameIgnoreCase(@RequestParam String name) {
-        Faculty foundedFaculty = houseService.findByNameIgnoreCase(name);
-        if(foundedFaculty == null) {
+    public ResponseEntity<FacultyDTO> findByNameIgnoreCase(@RequestParam String name) {
+        FacultyDTO foundedFacultyDTO = houseService.findByNameIgnoreCase(name);
+        if(foundedFacultyDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(foundedFaculty);
+        return ResponseEntity.ok(foundedFacultyDTO);
     }
 
     @DeleteMapping("{idF}")
-    public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long idF) {
+    public ResponseEntity<FacultyDTO> deleteFaculty(@PathVariable Long idF) {
         houseService.deleteFaculty(idF);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Faculty>> validFacultyByColor (@RequestParam String color) {
+    public ResponseEntity<Collection<FacultyDTO>> validFacultyByColor (@RequestParam String color) {
         return ResponseEntity.ok(houseService.validFacultyByColor(color));
     }
 
+    @GetMapping("{idF}")
+    public ResponseEntity<Collection<StudentDTO>> getAllStudentsByFacultyId(@PathVariable Long idF) {
+        return ResponseEntity.ok(houseService.getAllStudentsByFacultyId(idF));
+    }
 }

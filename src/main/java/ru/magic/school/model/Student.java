@@ -1,9 +1,10 @@
 package ru.magic.school.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Objects;
 @Entity
 public class Student {
@@ -12,14 +13,19 @@ public class Student {
     private Long idS;
     private String name;
     private Integer age;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id")
+
+    private Faculty facultyId;
 
     public Student() {
     }
 
-    public Student(Long idS, String name, Integer age) {
+    public Student(Long idS, String name, Integer age, Faculty facultyId) {
         this.idS = idS;
         this.name = name;
         this.age = age;
+        this.facultyId = facultyId;
     }
 
     public Long getIdS() {
@@ -44,6 +50,14 @@ public class Student {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Faculty getFacultyId() {
+        return facultyId;
+    }
+
+    public void setFacultyId(Faculty facultyId) {
+        this.facultyId = facultyId;
     }
 
     @Override
