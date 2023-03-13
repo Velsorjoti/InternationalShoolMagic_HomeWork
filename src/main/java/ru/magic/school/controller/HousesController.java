@@ -44,14 +44,6 @@ public class HousesController {
         return ResponseEntity.ok(updateFaculty);
     }
 
-    @GetMapping
-    public ResponseEntity<Faculty> findByNameIgnoreCase(@RequestParam String name) {
-        Faculty foundedFaculty = houseService.findByNameIgnoreCase(name);
-        if(foundedFaculty == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(foundedFaculty);
-    }
 
     @DeleteMapping("{idF}")
     public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long idF) {

@@ -28,9 +28,6 @@ public class HouseService {
         return facultyRepository.findById(idF).orElse(null);
     }
 
-    public Faculty findByNameIgnoreCase(String name) {
-        return facultyRepository.findByNameIgnoreCase(name);
-    }
 
     public Faculty updateFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
@@ -46,6 +43,6 @@ public class HouseService {
     }
 
     public Collection<Faculty> validFacultyByColor(String color) {
-        return  facultyRepository.findAllByColor(color).stream().filter(faculty -> faculty.getColor() == color).collect(Collectors.toList());
+        return  facultyRepository.findAllByColor(color);
     }
 }
