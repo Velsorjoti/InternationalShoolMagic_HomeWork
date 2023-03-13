@@ -46,6 +46,6 @@ public class HouseService {
     }
 
     public Collection<Faculty> validFacultyByColor(String color) {
-        return  facultyRepository.findAll().stream().filter(faculty -> faculty.getColor() == color).collect(Collectors.toList());
+        return  facultyRepository.findAllByColor(color).stream().filter(faculty -> faculty.getColor() == color).collect(Collectors.toList());
     }
 }

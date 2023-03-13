@@ -41,11 +41,11 @@ public class StudentService {
     }
 
     public Collection<Student> validStudentByAge(Integer age) {
-        return studentRepository.findAll().stream().filter(student -> student.getAge() == age
+        return studentRepository.findAllByAge(age).stream().filter(student -> student.getAge() == age
         ).collect(Collectors.toList());
     }
 
-    public Student findByAgeBetween(Integer min, Integer max) {
+    public Collection<Student> findByAgeBetween(Integer min, Integer max) {
         return studentRepository.findByAgeBetween(min,max);
     }
 
