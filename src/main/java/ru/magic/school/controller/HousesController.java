@@ -47,12 +47,14 @@ public class HousesController {
     }
 
     @GetMapping
-    public ResponseEntity<FacultyDTO> findByNameIgnoreCase(@RequestParam String name) {
-        FacultyDTO foundedFacultyDTO = houseService.findByNameIgnoreCase(name);
-        if(foundedFacultyDTO == null) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Collection<FacultyDTO>> getFaculty(@RequestParam(required = false) String name,@RequestParam(required = false) String color) {
+        if(name != null && !name.isBlank()) {
+            return ResponseEntity.ok(houseService.findByNameIgnoreCase(name));
         }
-        return ResponseEntity.ok(foundedFacultyDTO);
+        if (color != null && !color.isBlank()) {
+            return ResponseEntity.ok(houseService.validFacultyByColor(color));
+        }
+        return ResponseEntity.ok(houseService.getAllFaculty());
     }
 
     @DeleteMapping("{idF}")
@@ -61,10 +63,6 @@ public class HousesController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/color")
-    public ResponseEntity<Collection<FacultyDTO>> validFacultyByColor (@RequestParam String color) {
-        return ResponseEntity.ok(houseService.validFacultyByColor(color));
-    }
 
     @GetMapping("{idF}/student")
     public ResponseEntity<Collection<StudentDTO>> getAllStudentsByFacultyId(@PathVariable Long idF) {

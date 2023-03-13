@@ -7,6 +7,6 @@ import java.util.Collection;
 
 public interface FacultyRepository extends JpaRepository<Faculty, Long> {
 
-    public Faculty findByNameIgnoreCase(String name);
+    public Collection<Faculty> findByNameIgnoreCase(String name);
     public Collection<Faculty> findAllByColor(String color);
 }

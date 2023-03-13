@@ -29,8 +29,8 @@ public class HouseService {
         return FacultyDTO.fromFaculty(facultyRepository.findById(idF).orElse(null));
     }
 
-    public FacultyDTO findByNameIgnoreCase(String name) {
-        return FacultyDTO.fromFaculty(facultyRepository.findByNameIgnoreCase(name));
+    public Collection<FacultyDTO> findByNameIgnoreCase(String name) {
+        return facultyRepository.findAllByColor(name).stream().map(FacultyDTO::fromFaculty).collect(Collectors.toList());
     }
 
     public FacultyDTO updateFaculty(FacultyDTO facultyDTO) {

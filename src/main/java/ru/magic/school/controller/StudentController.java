@@ -54,14 +54,15 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<StudentDTO>> validStudentByAge(@RequestParam Integer age) {
+    public ResponseEntity<Collection<StudentDTO>> getStudent(@RequestParam(required = false) Integer age, @RequestParam(required = false) Integer min,@RequestParam(required = false) Integer max) {
+        if (age != null)
         return ResponseEntity.ok(studentService.validStudentByAge(age));
+        if (min != null && max != null) {
+            return  ResponseEntity.ok(studentService.findByAgeBetween(min, max));
+        }
+        return ResponseEntity.ok(studentService.getAllStudent());
     }
 
-    @GetMapping("/age")
-    public ResponseEntity<Collection<StudentDTO>> findByAgeBetween(@RequestParam Integer min,@RequestParam Integer max) {
-       return  ResponseEntity.ok(studentService.findByAgeBetween(min, max));
-    }
 
     @GetMapping("{idS}/faculty")
     public ResponseEntity<FacultyDTO> getFacultyByIdStudent(@PathVariable Long idS) {
