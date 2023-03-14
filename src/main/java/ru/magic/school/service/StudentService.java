@@ -2,6 +2,7 @@ package ru.magic.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.magic.school.DTO.FacultyDTO;
 import ru.magic.school.DTO.StudentDTO;
 import ru.magic.school.model.Faculty;
@@ -13,6 +14,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class StudentService {
 
     private StudentRepository studentRepository;

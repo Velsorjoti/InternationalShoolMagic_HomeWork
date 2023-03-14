@@ -1,5 +1,6 @@
 package ru.magic.school.model;
 
+import org.hibernate.annotations.Type;
 import ru.magic.school.DTO.FacultyDTO;
 
 import javax.persistence.*;
@@ -12,9 +13,10 @@ public class Avatar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idA;
     private String filePath;
-    private Long fileSize;
+    private long fileSize;
     private String mediaType;
     @Lob
+    @Type(type="org.hibernate.type.BinaryType")
     private byte[] data;
     @OneToOne
     private Student student;
@@ -22,7 +24,7 @@ public class Avatar {
     public Avatar() {
     }
 
-    public Avatar(Long idA, String filePath, Long fileSize, String mediaType, byte[] data, Student student) {
+    public Avatar(Long idA, String filePath, long fileSize, String mediaType, byte[] data, Student student) {
         this.idA = idA;
         this.filePath = filePath;
         this.fileSize = fileSize;
@@ -47,11 +49,11 @@ public class Avatar {
         this.filePath = filePath;
     }
 
-    public Long getFileSize() {
+    public long getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Long fileSize) {
+    public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
     }
 
@@ -75,7 +77,7 @@ public class Avatar {
         return student;
     }
 
-    public void setStudent(FacultyDTO student) {
+    public void setStudent(Student student) {
         this.student = student;
     }
 
@@ -105,5 +107,5 @@ public class Avatar {
                 ", student=" + student +
                 '}';
     }
+
 }
-  //  Long id, String filePath, long fileSize, String mediaType, byte[] data, Student student.
