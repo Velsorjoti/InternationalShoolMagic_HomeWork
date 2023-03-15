@@ -1,6 +1,7 @@
 package ru.magic.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magic.school.DTO.FacultyDTO;
@@ -49,8 +50,9 @@ public class StudentService {
         studentRepository.deleteById(idS);
     }
 
-    public Collection<StudentDTO> getAllStudent() {
-        return studentRepository.findAll().stream().map(StudentDTO::fromStudent).collect(Collectors.toList());
+    public Collection<StudentDTO> getAllStudent(Integer page, Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of((page - 1), pageSize);
+        return studentRepository.findAll(pageRequest).getContent().stream().map(StudentDTO::fromStudent).collect(Collectors.toList());
     }
 
 
@@ -67,4 +69,17 @@ public class StudentService {
         Faculty faculty = facultyRepository.findById(getStudentByIdS(idS).getFacultyId()).get();
         return FacultyDTO.fromFaculty(faculty);
     }
+
+    public Long getAllStudentCount() {
+        return studentRepository.getAllStudentCount();
+    }
+
+    public Long getAverageAge() {
+        return studentRepository.getAverageAge();
+    }
+
+    public Collection<Student> getFistFiveYoungStudent() {
+        return studentRepository.getFistFiveYoungStudent();
+    }
+
 }

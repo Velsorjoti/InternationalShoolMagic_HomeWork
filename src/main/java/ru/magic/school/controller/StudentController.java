@@ -68,14 +68,16 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<StudentDTO>> getStudent(@RequestParam(required = false) Integer age, @RequestParam(required = false) Integer min,@RequestParam(required = false) Integer max) {
+    public ResponseEntity<Collection<StudentDTO>> getStudent(@RequestParam(required = false) Integer age, @RequestParam(required = false) Integer min,@RequestParam(required = false) Integer max,@RequestParam Integer page, @RequestParam Integer pageSize) {
         if (age != null)
         return ResponseEntity.ok(studentService.validStudentByAge(age));
         if (min != null && max != null) {
             return  ResponseEntity.ok(studentService.findByAgeBetween(min, max));
         }
-
-        return ResponseEntity.ok(studentService.getAllStudent());
+        if (pageSize <= 0 || pageSize > 50){
+         return ResponseEntity.ok(studentService.getAllStudent(page, 50));
+        }
+        return ResponseEntity.ok(studentService.getAllStudent(page, pageSize));
     }
 
 
@@ -84,7 +86,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getFacultyByIdStudent(idS));
     }
 
-    @PostMapping(value = "{idS/student/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "{idS}/student/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> uploadAvatar(@PathVariable  Long idS, @RequestParam MultipartFile avatar) throws IOException{
         if (avatar.getSize() >= 1024 * 300) {
             return  ResponseEntity.badRequest().body("Файл слишком большой");
@@ -92,7 +94,7 @@ public class StudentController {
         avatarService.uploadAvatar(idS,avatar);
         return ResponseEntity.ok().build();
     }
-    @GetMapping(value = "/{idA/avatar/data")
+    @GetMapping(value = "/{idA}/avatar/data")
     public ResponseEntity<byte[]> downLoadAvatar(@PathVariable Long idA) {
         Avatar avatarServiceStudentAvatar = avatarService.findStudentAvatar(idA);
 
@@ -117,5 +119,20 @@ public class StudentController {
             response.setContentLength((int) avatar1.getFileSize());
             is.transferTo(os);
         }
+    }
+
+    @GetMapping(value = "student/count")
+    public ResponseEntity<Long> getAllStudentCount() {
+        return ResponseEntity.ok(studentService.getAllStudentCount());
+    }
+
+    @GetMapping(value = "student/avg")
+    public ResponseEntity<Long> getAverageAge() {
+        return ResponseEntity.ok(studentService.getAverageAge());
+    }
+
+    @GetMapping(value = "student/young")
+    public ResponseEntity<Collection<Student>> getFistFiveYoungStudent() {
+        return ResponseEntity.ok(studentService.getFistFiveYoungStudent());
     }
 }
