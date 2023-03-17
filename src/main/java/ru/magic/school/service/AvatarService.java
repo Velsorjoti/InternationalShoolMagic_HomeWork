@@ -1,5 +1,7 @@
 package ru.magic.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,10 +25,12 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 @Transactional
 public class AvatarService {
-    @Value("avatar")
+    @Value("${student.avatar.dir.path}")
     private String avatarDir;
     private AvatarRepository avatarRepository;
     private StudentService studentService;
+
+    public static final Logger logger = LoggerFactory.getLogger(AvatarService.class);
 
     public AvatarService() {
     }
@@ -37,6 +41,7 @@ public class AvatarService {
     }
 
     public void uploadAvatar(Long idS, MultipartFile file) throws IOException {
+        logger.debug("Uploading avatar for student with id: " + idS);
         StudentDTO student = studentService.getStudentByIdS(idS);
 
         Path filePath = Path.of(avatarDir,idS + "." + getExtencion(file.getOriginalFilename()));
@@ -62,6 +67,7 @@ public class AvatarService {
     }
 
     public Avatar findStudentAvatar(Long idS) {
+        logger.info("Find avatar for student with id:" + idS);
         return avatarRepository.findByStudentIdS(idS).orElse(new Avatar());
     }
 
