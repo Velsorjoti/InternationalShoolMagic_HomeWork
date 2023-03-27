@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 
--- changeset v:1
+-- changeset V:1
 CREATE TABLE avatar (
     idA BIGSERIAL PRIMARY KEY ,
     file_path VARCHAR(255),
