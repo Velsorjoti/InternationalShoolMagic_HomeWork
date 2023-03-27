@@ -163,7 +163,7 @@ public class HouseControllerTest {
                 .andExpect(jsonPath("$.length()").value(faculty.getStudentList().size()));
     }
 
-
+    //
 
 
 }
