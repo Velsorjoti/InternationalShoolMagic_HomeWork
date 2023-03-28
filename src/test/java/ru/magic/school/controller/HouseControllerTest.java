@@ -72,8 +72,8 @@ public class HouseControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.idF").isNotEmpty())
+                .andExpect(jsonPath("$.idF").isNumber())
                 .andExpect(jsonPath("$.name").value("Cogtevran"))
                 .andExpect(jsonPath("$.color").value("bronze"));
 
@@ -94,8 +94,8 @@ public class HouseControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.idF").isNotEmpty())
+                .andExpect(jsonPath("$.idF").isNumber())
                 .andExpect(jsonPath("$.name").value("Slizerin"))
                 .andExpect(jsonPath("$.color").value("green"));
 
@@ -112,7 +112,7 @@ public class HouseControllerTest {
         mockMvc.perform(get("/faculty/" + faculty.getIdF()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Griffindor"))
-                .andExpect(jsonPath("$.color").value("green"));
+                .andExpect(jsonPath("$.color").value("Red"));
     }
 
     @Test
@@ -157,7 +157,7 @@ public class HouseControllerTest {
 
     @Test
     public void testReturneListAllStudentByFacultyId() throws  Exception {
-        mockMvc.perform(get("/faculty/" + faculty.getIdF() + "/students"))
+        mockMvc.perform(get("/faculty/" + faculty.getIdF() + "/student"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(faculty.getStudentList().size()));

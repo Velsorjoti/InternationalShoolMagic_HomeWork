@@ -95,9 +95,9 @@ public class StudentService {
         return studentRepository.getAverageAge();
     }
 
-    public Collection<Student> getFistFiveYoungStudent() {
+    public Collection<StudentDTO> getFirstFiveYoungStudent() {
         logger.info("We get the five youngest students.");
-        return studentRepository.getFistFiveYoungStudent();
+        return studentRepository.getFirstFiveYoung().stream().map(StudentDTO::fromStudent).collect(Collectors.toList());
     }
 
 }

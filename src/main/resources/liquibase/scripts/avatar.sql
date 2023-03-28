@@ -7,7 +7,7 @@ CREATE TABLE avatar (
     file_size BIGINT,
     media_type VARCHAR(255),
     student_idS BIGINT REFERENCES student(idS),
-    data OID
+    data BYTEA
 )
 
 

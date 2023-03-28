@@ -121,18 +121,18 @@ public class StudentController {
         }
     }
 
-    @GetMapping(value = "student/count")
+    @GetMapping(value = "/count")
     public ResponseEntity<Long> getAllStudentCount() {
         return ResponseEntity.ok(studentService.getAllStudentCount());
     }
 
-    @GetMapping(value = "student/avg")
+    @GetMapping(value = "/avg")
     public ResponseEntity<Long> getAverageAge() {
         return ResponseEntity.ok(studentService.getAverageAge());
     }
 
-    @GetMapping(value = "student/young")
-    public ResponseEntity<Collection<Student>> getFistFiveYoungStudent() {
-        return ResponseEntity.ok(studentService.getFistFiveYoungStudent());
+    @GetMapping(value = "/young")
+    public ResponseEntity<Collection<StudentDTO>> getFirstFiveYoung() {
+        return ResponseEntity.ok(studentService.getFirstFiveYoungStudent());
     }
 }

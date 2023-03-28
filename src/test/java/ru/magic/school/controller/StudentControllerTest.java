@@ -60,12 +60,12 @@ public class StudentControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.idS").isNotEmpty())
+                .andExpect(jsonPath("$.idS").isNumber())
                 .andExpect(jsonPath("$.name").value("Medz"))
                 .andExpect(jsonPath("$.age").value(20))
                 .andExpect(jsonPath("$.facultyId").value(faculty.getIdF()));
-        mockMvc.perform(get("/student?pageNumber=1"))
+        mockMvc.perform(get("/student?page=1&pageSize=10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(2))
@@ -77,35 +77,38 @@ public class StudentControllerTest {
     @Test
     void testGetStudentMethod() throws Exception {
         studentRepository.delete(student);
-        mockMvc.perform(get("/student/" + student.getFacultyId()))
+        mockMvc.perform(get("/student" + student.getIdS()))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void testUpdateStudentMethod() throws Exception {
         jsonObject.put("name","Zdem");
+        jsonObject.put("age", 21);
         mockMvc.perform(patch("/student")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value("Cooper"))
+                .andExpect(jsonPath("$.idS").isNotEmpty())
+                .andExpect(jsonPath("$.idS").isNumber())
+                .andExpect(jsonPath("$.name").value("Zdem"))
+                .andExpect(jsonPath("$.age").value(21))
                 .andExpect(jsonPath("$.facultyId").value(faculty.getIdF()));
-        mockMvc.perform(get("/student?pageNumber=1"))
+        mockMvc.perform(get("/student?page=1&pageSize=10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[1].name").value("Cooper"))
+                .andExpect(jsonPath("$[1].name").value("Zdem"))
+                .andExpect(jsonPath("$[1].age").value(21))
                 .andExpect(jsonPath("$[1].facultyId").value(faculty.getIdF()));
     }
 
     @Test
     void testDeleteStudent() throws Exception {
-        mockMvc.perform(delete("/student/" + student.getFacultyId()))
+        mockMvc.perform(delete("/student/" + student.getIdS()))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/student?pageNumber=1"))
+        mockMvc.perform(get("/student?page=1&pageSize=10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(0));
@@ -113,14 +116,14 @@ public class StudentControllerTest {
 
     @Test
     void testReturneListOfStudent() throws  Exception {
-        mockMvc.perform(get("/student?pageNumber=1"))
+        mockMvc.perform(get("/student?page=1&pageSize=10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
     }
 
     @Test
     void testReturneListOfStudentValidAgeMethod() throws Exception {
-        mockMvc.perform(get("/student?validAge=19&pageNumber=1"))
+        mockMvc.perform(get("/student?age=19&page=1&pageSize=10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].name").value(student.getName()))
@@ -129,7 +132,7 @@ public class StudentControllerTest {
 
     @Test
     void testReturneListOfStudentBetweenAgeMethod() throws Exception {
-        mockMvc.perform(get("/student?min=17&max=30&pageNumber=1"))
+        mockMvc.perform(get("/student?min=17&max=30&page=1&pageSize=10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].name").value(student.getName()))
@@ -146,7 +149,7 @@ public class StudentControllerTest {
 
     @Test
     void testStudentAverageAgeMethod() throws Exception  {
-        mockMvc.perform(get("/student/avq"))
+        mockMvc.perform(get("/student/avg"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(studentRepository.getAverageAge().toString()));
     }
