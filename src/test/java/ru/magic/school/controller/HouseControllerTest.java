@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import ru.magic.school.config.DockerConfig;
 import ru.magic.school.model.Faculty;
 import ru.magic.school.model.Student;
 import ru.magic.school.repository.FacultyRepository;
@@ -25,7 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class HouseControllerTest {
+@Testcontainers
+public class HouseControllerTest  extends DockerConfig {
 
     @Autowired
     MockMvc mockMvc;
